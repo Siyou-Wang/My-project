@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 3
   tags:
   - StartButton
+  - ProgramingFile
+  - BackToScreen
   layers:
   - Default
   - TransparentFX
