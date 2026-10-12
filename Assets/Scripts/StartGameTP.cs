@@ -24,14 +24,22 @@ public class StartGameTP : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("clicked0");
+            
             if (hit.collider != null)
             {
                 Debug.Log("clicked1");
                 if (hit.collider.gameObject.tag == "StartButton")
                 {
                     Camera.main.transform.position = new Vector3(20, 0, -10);
-                    Debug.Log("clicked");
+                    
+                }
+                else if (hit.collider.gameObject.tag == "ProgramingFile")
+                {
+                    Camera.main.transform.position = new Vector3(40, 0, -10);
+                }
+                else if (hit.collider.gameObject.tag == "BackToScreen")
+                {
+                    Camera.main.transform.position = new Vector3(20, 0, -10);
                 }
             }
         }
