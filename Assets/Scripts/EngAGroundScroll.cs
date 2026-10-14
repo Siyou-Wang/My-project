@@ -24,7 +24,7 @@ public class BackgroundScroll : MonoBehaviour
     void Update()
     {
         // Speeds up depending on how many correct characters are typed 
-        speed += typeDex / 100.0f;
+        speed += typeDex / 200.0f;
 
         // If something is typed 
         if (Input.inputString.Length > 0)
@@ -41,7 +41,7 @@ public class BackgroundScroll : MonoBehaviour
                 // Reset ground to infinite loop 
                 if (ground1.position.x < 56)
                 {
-                    ground1.position = new Vector3(ground2.position.x + 5f, ground1.position.y, ground1.position.z);
+                    ground1.position = new Vector3(ground2.position.x + 10f, ground1.position.y, ground1.position.z);
                     tempGround = ground1;
                     ground1 = ground2;
                     ground2 = tempGround;
