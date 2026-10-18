@@ -31,15 +31,34 @@ public class AngerAndCalm : MonoBehaviour
         fire3.GetComponent<Image>().enabled = false;
         fire4.GetComponent<Image>().enabled = false;
         fire5.GetComponent<Image>().enabled = false;
-        water.GetComponent<Image>().enabled = false;
-
+        //water.GetComponent<Image>().enabled = false;
+        mentalState = 0;
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(mentalState <= 0)
+        {
+            
+            
+            if (mentalState > -5)
+            {
+                fire.GetComponent<Image>().enabled = true;
+                
+
+            }
+        }
         
+        else if(mentalState > 0)
+        {
+            water.transform.position = new Vector3(0, -1636, 0);
+            if(mentalState <5)
+            {
+                water.transform.position = new Vector3(0, -1000, 0);
+            }
+        }
     }
 
     public static int getState()
