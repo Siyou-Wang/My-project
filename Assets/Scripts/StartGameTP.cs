@@ -41,6 +41,10 @@ public class StartGameTP : MonoBehaviour
                 {
                     Camera.main.transform.position = new Vector3(20, 0, -10);
                 }
+                else if (hit.collider.gameObject.tag == "Terminal")
+                {
+                    Camera.main.transform.position = new Vector3(20, -20, -10);
+                }
             }
         }
     }
