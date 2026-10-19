@@ -5,33 +5,40 @@ using System.Collections.Generic;
 public class RPGGameManager : MonoBehaviour
 {
     private Transform player;
-    private Transform enemy;
+    
     private Transform attack;
     private Animator animator;
 
-    private bool playerTurn;
-    private int playerHealth;
-    private int enemyHealth;
+    private static bool playerTurn;
+    private static int playerHealth;
+    
     private bool playerAttack;
-    private bool enemyAttack;
+    private Transform enemy;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         player = GameObject.Find("Player").transform;
         attack = GameObject.Find("Attack").transform;
-        enemy = GameObject.Find("Enemy").transform;
+        
         playerTurn = true;
         playerHealth = 100;
-        enemyHealth = 90;
+        
         playerAttack = false;
-        enemyAttack = false;
+        
         animator = GetComponent<Animator>();
+
+        enemy = GameObject.Find("Enemy").transform;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!RPGManagerEnemy.eTurn())
+        {
+            playerTurn = true;
+        }
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
@@ -46,7 +53,7 @@ public class RPGGameManager : MonoBehaviour
                 if(hit.collider.gameObject.tag == "Attack")
                 {
                     playerAttack = true;
-                   
+                    
                 }
             }
         }
@@ -55,7 +62,7 @@ public class RPGGameManager : MonoBehaviour
         {
             
             animator.Play("PlayerAttack");
-            DoDelayAction(1.5f);
+            DoDelayAction(1.0f);
             
             
         }
@@ -74,6 +81,21 @@ public class RPGGameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delayTime);
         playerAttack = false;
+        playerTurn = false;
+        RPGManagerEnemy.setTurnE();
     }
 
+    public void pSetH(int health)
+    {
+        playerHealth += health;
+    }
+
+    public int pGetH()
+    {
+        return playerHealth;
+    }
+    public static bool getPTurn()
+    {
+        return playerTurn;
+    }
 }
