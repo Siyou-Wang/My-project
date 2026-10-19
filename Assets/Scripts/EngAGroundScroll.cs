@@ -1,20 +1,21 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BackgroundScroll : MonoBehaviour
 {
-    private readonly List<Transform> tiles = new List<Transform>(); // ordered left -> right
+    private Transform ground1;   // LEFT tile
+    private Transform ground2;   // RIGHT tile, directly touching ground1
+
     private float groundWidth;
     private Camera cam;
 
     [SerializeField] private float baseSpeed = 0.5f;            // distance per correct char at streak 0
     [SerializeField] private float speedPerCorrectChar = 0.05f; // extra distance per char for each streak point
     [SerializeField] private float glideSpeed = 10f;            // how fast the ground slides to cover pending distance
-    [SerializeField] private bool startHidden = true;
+    [SerializeField] private bool startHidden = true;           // ground is invisible until revealed
 
     private float speed;
     private int streak = 0;
-    private float pendingDistance = 0f;
+    private float pendingDistance = 0f; // distance still to scroll
 
     private readonly string typeAnsw = "The quick brown fox jumped over the lazy dogs.";
     private int typeDex = 0;
@@ -31,42 +32,16 @@ public class BackgroundScroll : MonoBehaviour
             return;
         }
 
+        ground1 = g1.transform;
+        ground2 = g2.transform;
         cam = Camera.main;
 
+        // Measure BEFORE hiding, since a disabled renderer can report unreliable bounds
         Renderer r = g1.GetComponent<Renderer>();
-        groundWidth = (r != null) ? r.bounds.size.x : Mathf.Abs(g2.transform.position.x - g1.transform.position.x);
-
-        float leftEdge = cam.ViewportToWorldPoint(new Vector3(0f, 0f, 0f)).x;
-        float rightEdge = cam.ViewportToWorldPoint(new Vector3(1f, 0f, 0f)).x;
-        float screenWidth = rightEdge - leftEdge;
-
-        // Enough tiles to cover the screen, plus extras so the right side is never bare
-        int tileCount = Mathf.CeilToInt(screenWidth / groundWidth) + 2;
-
-        // Start the row so the first tile's left edge is at or past the left screen edge
-        float startX = g1.transform.position.x;
-        while (startX - groundWidth / 2f > leftEdge)
-            startX -= groundWidth;
-
-        float y = g1.transform.position.y;
-        float z = g1.transform.position.z;
-
-        tiles.Add(g1.transform);
-        tiles.Add(g2.transform);
-        for (int i = 2; i < tileCount; i++)
-        {
-            GameObject clone = Instantiate(g1, g1.transform.parent);
-            clone.name = "EngAGround" + (i + 1);
-            tiles.Add(clone.transform);
-        }
-
-        // Lay them out edge to edge
-        for (int i = 0; i < tiles.Count; i++)
-            tiles[i].position = new Vector3(startX + i * groundWidth, y, z);
+        groundWidth = (r != null) ? r.bounds.size.x : Mathf.Abs(ground2.position.x - ground1.position.x);
 
         speed = baseSpeed;
 
-        // Hide only after measuring and cloning
         SetGroundVisible(!startHidden);
     }
 
@@ -84,7 +59,7 @@ public class BackgroundScroll : MonoBehaviour
 
             if (pressedChar == typeAnsw[typeDex])
             {
-                pendingDistance += speed;
+                pendingDistance += speed; // each correct char queues up movement
                 streak++;
                 typeDex = (typeDex + 1) % typeAnsw.Length;
                 speed = baseSpeed + streak * speedPerCorrectChar;
@@ -102,36 +77,38 @@ public class BackgroundScroll : MonoBehaviour
 
     void ScrollGround()
     {
-        if (pendingDistance <= 0f) return;
+        if (pendingDistance <= 0f) return; // nothing typed correctly, so no movement
 
         float step = Mathf.Min(pendingDistance, glideSpeed * Time.deltaTime);
         pendingDistance -= step;
 
         Vector3 move = Vector3.left * step;
-        foreach (Transform t in tiles)
-            t.position += move;
+        ground1.position += move;
+        ground2.position += move;
 
         float leftEdge = cam.ViewportToWorldPoint(new Vector3(0f, 0f, 0f)).x;
 
-        // Recycle the leftmost tile to the right end once it's fully off-screen
-        while (tiles[0].position.x + groundWidth / 2f < leftEdge)
+        // When the left tile is fully off-screen, put it behind the other tile
+        while (ground1.position.x + groundWidth / 2f < leftEdge)
         {
-            Transform first = tiles[0];
-            Transform last = tiles[tiles.Count - 1];
+            ground1.position = new Vector3(ground2.position.x + groundWidth, ground1.position.y, ground1.position.z);
 
-            first.position = new Vector3(last.position.x + groundWidth, first.position.y, first.position.z);
-
-            tiles.RemoveAt(0);
-            tiles.Add(first);
+            Transform temp = ground1;
+            ground1 = ground2;
+            ground2 = temp;
         }
     }
 
+    // Called by the clickable sprite
     public void SetGroundVisible(bool visible)
     {
-        foreach (Transform t in tiles)
-        {
-            Renderer r = t.GetComponent<Renderer>();
-            if (r != null) r.enabled = visible;
-        }
+        SetRendererEnabled(ground1, visible);
+        SetRendererEnabled(ground2, visible);
+    }
+
+    private void SetRendererEnabled(Transform t, bool visible)
+    {
+        Renderer r = t.GetComponent<Renderer>();
+        if (r != null) r.enabled = visible;
     }
 }

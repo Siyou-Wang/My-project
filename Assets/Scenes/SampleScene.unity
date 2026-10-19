@@ -1337,6 +1337,7 @@ GameObject:
   - component: {fileID: 782538649}
   - component: {fileID: 782538648}
   - component: {fileID: 782538651}
+  - component: {fileID: 782538652}
   m_Layer: 0
   m_Name: EngAButton
   m_TagString: EngATP
@@ -1477,6 +1478,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd2b6d0f09000473eae954d4d3a54543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EngATP
+--- !u!114 &782538652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 782538646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12e4722a3a7d843df9ad1acd0e3e304a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EngAGroundReveal
+  backgroundScroll: {fileID: 0}
+  hideSpriteAfterClick: 1
 --- !u!1 &831937205
 GameObject:
   m_ObjectHideFlags: 0
@@ -5137,7 +5152,7 @@ Transform:
   m_GameObject: {fileID: 2133493897}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 53, y: -4, z: -1}
+  m_LocalPosition: {x: 53, y: -4, z: 10}
   m_LocalScale: {x: 14, y: 0.3, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
