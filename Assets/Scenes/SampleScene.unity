@@ -2188,8 +2188,8 @@ Transform:
   m_GameObject: {fileID: 1227454531}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 65, y: -4, z: -1}
-  m_LocalScale: {x: 10, y: 0.3, z: 2}
+  m_LocalPosition: {x: 67, y: -4, z: -1}
+  m_LocalScale: {x: 14, y: 0.3, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2252,6 +2252,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c52dcce630d0d42808ac110129a317b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BackgroundScroll
+  baseSpeed: 0.5
+  speedPerCorrectChar: 0.05
+  glideSpeed: 10
 --- !u!1 &1233398629
 GameObject:
   m_ObjectHideFlags: 0
@@ -4656,8 +4659,8 @@ Transform:
   m_GameObject: {fileID: 2133493897}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 55, y: -4, z: -1}
-  m_LocalScale: {x: 10, y: 0.3, z: 2}
+  m_LocalPosition: {x: 53, y: -4, z: -1}
+  m_LocalScale: {x: 14, y: 0.3, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -4720,6 +4723,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c52dcce630d0d42808ac110129a317b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BackgroundScroll
+  baseSpeed: 0.5
+  speedPerCorrectChar: 0.05
+  glideSpeed: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
