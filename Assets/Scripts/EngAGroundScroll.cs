@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BackgroundScroll : MonoBehaviour
+public class EngAGroundScroll : MonoBehaviour
 {
     private Transform ground1;   // LEFT tile
     private Transform ground2;   // RIGHT tile, directly touching ground1
@@ -8,20 +8,28 @@ public class BackgroundScroll : MonoBehaviour
     private float groundWidth;
     private Camera cam;
 
-    [SerializeField] private float baseSpeed = 0.5f;            // distance per correct char at streak 0
-    [SerializeField] private float speedPerCorrectChar = 0.05f; // extra distance per char for each streak point
-    [SerializeField] private float glideSpeed = 10f;            // how fast the ground slides to cover pending distance
-    [SerializeField] private bool startHidden = true;           // ground is invisible until revealed
+    [SerializeField] private float baseSpeed = 0.5f;
+    [SerializeField] private float speedPerCorrectChar = 0.05f;
+    [SerializeField] private float glideSpeed = 10f;
+
+    [SerializeField] private EngATyping prompt; // drag the object with TypingPrompt here
+    [SerializeField] private string[] sentences =
+    {
+        "Quoth the Raven, \"Nevermore.\"",
+        "All that we see or seem is but a dream within a dream."
+    };
 
     private float speed;
     private int streak = 0;
-    private float pendingDistance = 0f; // distance still to scroll
+    private float pendingDistance = 0f;
 
-    private readonly string typeAnsw = "The quick brown fox jumped over the lazy dogs.";
+    private string typeAnsw = "";
     private int typeDex = 0;
+    private int sentenceIndex = 0;
 
     void Start()
     {
+        Debug.Log("BackgroundScroll Start running");
         GameObject g1 = GameObject.Find("EngAGround1");
         GameObject g2 = GameObject.Find("EngAGround2");
 
@@ -32,17 +40,23 @@ public class BackgroundScroll : MonoBehaviour
             return;
         }
 
+        if (sentences == null || sentences.Length == 0)
+        {
+            Debug.LogError("BackgroundScroll: add at least one sentence in the Inspector.");
+            enabled = false;
+            return;
+        }
+
         ground1 = g1.transform;
         ground2 = g2.transform;
         cam = Camera.main;
 
-        // Measure BEFORE hiding, since a disabled renderer can report unreliable bounds
         Renderer r = g1.GetComponent<Renderer>();
         groundWidth = (r != null) ? r.bounds.size.x : Mathf.Abs(ground2.position.x - ground1.position.x);
 
         speed = baseSpeed;
 
-        SetGroundVisible(!startHidden);
+        LoadSentence(0);
     }
 
     void Update()
@@ -51,33 +65,56 @@ public class BackgroundScroll : MonoBehaviour
         ScrollGround();
     }
 
+    // Load a sentence from the list (wraps around at the end)
+    void LoadSentence(int index)
+    {
+        sentenceIndex = index % sentences.Length;
+        SetSentence(sentences[sentenceIndex]);
+    }
+
+    // Call this from other scripts to set any custom sentence
+    public void SetSentence(string newSentence)
+    {
+        Debug.Log("SetSentence called. prompt is null? " + (prompt == null));
+        typeAnsw = newSentence;
+        typeDex = 0;
+        if (prompt != null) prompt.SetSentence(typeAnsw);
+    }
+
     void HandleTyping()
     {
+        if (string.IsNullOrEmpty(typeAnsw)) return;
+
         foreach (char pressedChar in Input.inputString)
         {
-            if (char.IsControl(pressedChar)) continue; // ignore backspace/enter
+            if (char.IsControl(pressedChar)) continue;
 
             if (pressedChar == typeAnsw[typeDex])
             {
-                pendingDistance += speed; // each correct char queues up movement
+                pendingDistance += speed;
                 streak++;
-                typeDex = (typeDex + 1) % typeAnsw.Length;
                 speed = baseSpeed + streak * speedPerCorrectChar;
-                Debug.Log("you (correctly) typed: " + pressedChar);
+                typeDex++;
+
+                if (typeDex >= typeAnsw.Length)
+                    LoadSentence(sentenceIndex + 1); // finished: next sentence, streak keeps going
+                else if (prompt != null)
+                    prompt.SetProgress(typeDex);
             }
             else
             {
                 typeDex = 0;
                 streak = 0;
                 speed = baseSpeed;
-                Debug.Log("wrong key: " + pressedChar);
+                pendingDistance = 0f;
+                if (prompt != null) prompt.SetProgress(0);
             }
         }
     }
 
     void ScrollGround()
     {
-        if (pendingDistance <= 0f) return; // nothing typed correctly, so no movement
+        if (pendingDistance <= 0f) return;
 
         float step = Mathf.Min(pendingDistance, glideSpeed * Time.deltaTime);
         pendingDistance -= step;
@@ -88,7 +125,6 @@ public class BackgroundScroll : MonoBehaviour
 
         float leftEdge = cam.ViewportToWorldPoint(new Vector3(0f, 0f, 0f)).x;
 
-        // When the left tile is fully off-screen, put it behind the other tile
         while (ground1.position.x + groundWidth / 2f < leftEdge)
         {
             ground1.position = new Vector3(ground2.position.x + groundWidth, ground1.position.y, ground1.position.z);
@@ -97,18 +133,5 @@ public class BackgroundScroll : MonoBehaviour
             ground1 = ground2;
             ground2 = temp;
         }
-    }
-
-    // Called by the clickable sprite
-    public void SetGroundVisible(bool visible)
-    {
-        SetRendererEnabled(ground1, visible);
-        SetRendererEnabled(ground2, visible);
-    }
-
-    private void SetRendererEnabled(Transform t, bool visible)
-    {
-        Renderer r = t.GetComponent<Renderer>();
-        if (r != null) r.enabled = visible;
     }
 }

@@ -11,7 +11,6 @@ public class EngATP : MonoBehaviour
     void Start()
     {
         backButton = GameObject.Find("BackToScreen ENG").transform;
-        Debug.Log("-> EngA");
     }
 
     // Update is called once per frame
@@ -28,7 +27,6 @@ public class EngATP : MonoBehaviour
             
             if (hit.collider != null)
             {
-                Debug.Log("clicked EngA");
                 if (hit.collider.gameObject.tag == "EngATP")
                 {
                     Camera.main.transform.position = new Vector3(60, 0, -10);
