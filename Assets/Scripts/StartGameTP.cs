@@ -10,7 +10,7 @@ public class StartGameTP : MonoBehaviour
     void Start()
     {
         //startButton = GameObject.Find("startButton").transform;
-        Debug.Log("start");
+        //Debug.Log("start");
     }
 
     // Update is called once per frame

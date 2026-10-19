@@ -18,6 +18,8 @@ public class CodeGamePuzzle : MonoBehaviour
 
     private bool completeCode = false;
 
+    public int value = 0;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -43,6 +45,7 @@ public class CodeGamePuzzle : MonoBehaviour
             start = true;
             codeStart.position = codeStartPos.position;
             codeStart.GetComponent<BoxCollider2D>().enabled = false;
+            AngerAndCalm.setState(value);
           
         }
 
@@ -53,7 +56,8 @@ public class CodeGamePuzzle : MonoBehaviour
             mid = true;
             codeMid.position = codeMidPos.position;
             codeMid.GetComponent<BoxCollider2D>().enabled = false;
-           
+            AngerAndCalm.setState(value);
+
         }
 
         Vector3 distance2 = codeEnd.position - codeEndPos.position;
@@ -63,13 +67,14 @@ public class CodeGamePuzzle : MonoBehaviour
             end = true;
             codeEnd.position = codeEndPos.position;
             codeEnd.GetComponent<BoxCollider2D>().enabled = false;
-          
+            AngerAndCalm.setState(value);
+
         }
 
         if((start && end) && mid)
         {
             completeCode = true;
-
+            Camera.main.transform.position = new Vector3(40, -20, -10);
         }
     }
 }

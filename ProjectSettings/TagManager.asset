@@ -9,6 +9,7 @@ TagManager:
   - BackToScreen
   - EngATP
   - Terminal
+  - Attack
   layers:
   - Default
   - TransparentFX

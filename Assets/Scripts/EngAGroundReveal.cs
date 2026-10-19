@@ -7,9 +7,11 @@ public class EngAGroundReveal : MonoBehaviour
 
     void OnMouseDown()
     {
-        backgroundScroll.SetGroundVisible(true);
+        if (EngATP.isCalled) {
+            backgroundScroll.SetGroundVisible(true);
 
-        if (hideSpriteAfterClick)
-            gameObject.SetActive(false);
+            if (hideSpriteAfterClick)
+                gameObject.SetActive(false);
+        }
     }
 }

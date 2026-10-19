@@ -5,11 +5,12 @@ using System.Collections.Generic;
 public class EngATP : MonoBehaviour
 {
     //private Transform startButton;
-
+    public static bool isCalled = false;
+    private Transform backButton;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //startButton = GameObject.Find("startButton").transform;
+        backButton = GameObject.Find("BackToScreen ENG").transform;
         Debug.Log("-> EngA");
     }
 
@@ -31,7 +32,11 @@ public class EngATP : MonoBehaviour
                 if (hit.collider.gameObject.tag == "EngATP")
                 {
                     Camera.main.transform.position = new Vector3(60, 0, -10);
-                    
+                    isCalled = true;
+                }
+                if(hit.collider.gameObject == backButton)
+                {
+                    isCalled = false;
                 }
             }
         }
