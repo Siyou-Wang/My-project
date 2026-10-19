@@ -15,6 +15,8 @@ public class RPGGameManager : MonoBehaviour
     private bool playerAttack;
     private Transform enemy;
 
+    private static bool won;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,6 +28,7 @@ public class RPGGameManager : MonoBehaviour
         playerHealth = 100;
         
         playerAttack = false;
+        won = false;
         
         animator = GetComponent<Animator>();
 
@@ -35,6 +38,12 @@ public class RPGGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(playerHealth <= 0)
+        {
+            RPGManagerEnemy.setWinE(true);
+            won = false;
+            AngerAndCalm.setState(-6);
+        }
         if (!RPGManagerEnemy.eTurn())
         {
             playerTurn = true;
@@ -97,5 +106,10 @@ public class RPGGameManager : MonoBehaviour
     public static bool getPTurn()
     {
         return playerTurn;
+    }
+
+    public static void setWinP(bool didWin)
+    {
+        won = didWin;
     }
 }

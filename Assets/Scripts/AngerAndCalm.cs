@@ -72,5 +72,9 @@ public class AngerAndCalm : MonoBehaviour
         mentalState += val;
     }
 
+    public static void reset()
+    {
+        mentalState = 0;
+    }
     
 }

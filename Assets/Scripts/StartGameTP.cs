@@ -36,10 +36,12 @@ public class StartGameTP : MonoBehaviour
                 else if (hit.collider.gameObject.tag == "ProgramingFile")
                 {
                     Camera.main.transform.position = new Vector3(40, 0, -10);
+                    AngerAndCalm.reset();
                 }
                 else if (hit.collider.gameObject.tag == "BackToScreen")
                 {
                     Camera.main.transform.position = new Vector3(20, 0, -10);
+                    AngerAndCalm.reset();
                 }
                 else if (hit.collider.gameObject.tag == "Terminal")
                 {
