@@ -31,7 +31,7 @@ public class AngerAndCalm : MonoBehaviour
         fire3.GetComponent<Image>().enabled = false;
         fire4.GetComponent<Image>().enabled = false;
         fire5.GetComponent<Image>().enabled = false;
-        //water.GetComponent<Image>().enabled = false;
+        water.GetComponent<Image>().enabled = false;
         mentalState = 0;
 
     }
@@ -39,16 +39,39 @@ public class AngerAndCalm : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(mentalState <= 0)
+        if(mentalState < 0)
         {
             
             
             if (mentalState > -5)
             {
                 fire.GetComponent<Image>().enabled = true;
-                
+                fire1.GetComponent<Image>().enabled = false;
+                fire2.GetComponent<Image>().enabled = false;
+                fire3.GetComponent<Image>().enabled = false;
+                fire4.GetComponent<Image>().enabled = false;
+                fire5.GetComponent<Image>().enabled = false;
+
+                if (mentalState > -7 && mentalState < -5)
+                {
+                    fire1.GetComponent<Image>().enabled = true;
+                    fire2.GetComponent<Image>().enabled = true;
+                    fire3.GetComponent<Image>().enabled = false;
+                    fire4.GetComponent<Image>().enabled = false;
+                    fire5.GetComponent<Image>().enabled = false;
+
+                    if (mentalState > -10 && mentalState < -7)
+                    {
+                        fire3.GetComponent<Image>().enabled = true;
+                        fire4.GetComponent<Image>().enabled = true;
+                        fire5.GetComponent<Image>().enabled = true;
+                        RPGGameManager.resetGame();
+                    }
+                }
 
             }
+            
+          
         }
         
         else if(mentalState > 0)
@@ -58,6 +81,16 @@ public class AngerAndCalm : MonoBehaviour
             {
                 water.transform.position = new Vector3(0, -1000, 0);
             }
+        }
+        else
+        {
+            fire.GetComponent<Image>().enabled = false;
+            fire1.GetComponent<Image>().enabled = false;
+            fire2.GetComponent<Image>().enabled = false;
+            fire3.GetComponent<Image>().enabled = false;
+            fire4.GetComponent<Image>().enabled = false;
+            fire5.GetComponent<Image>().enabled = false;
+            water.GetComponent<Image>().enabled = false;
         }
     }
 
@@ -70,6 +103,7 @@ public class AngerAndCalm : MonoBehaviour
     public static void setState(int val)
     {
         mentalState += val;
+        //Debug.Log(mentalState);
     }
 
     public static void reset()

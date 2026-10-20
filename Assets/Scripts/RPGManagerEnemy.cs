@@ -1,23 +1,29 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 
 public class RPGManagerEnemy : MonoBehaviour
 {
     private Transform enemy;
-    private bool enemyAttack;
     private Animator animator;
-    private int enemyHealth;
+    private static int enemyHealth;
     private static bool enemyTurn;
+    private static bool enemyAttack;
 
-    private bool e1;
-    private bool e2;
-    private bool e3;
+    private static bool e1;
+    private static bool e2;
+    private static bool e3;
 
     private Transform player;
 
     private static bool eWon;
+
+    private DialogueManager dialogueManager;
+    private bool dialogueFinished = true;
+    private string[] message = new string[1];
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,6 +41,8 @@ public class RPGManagerEnemy : MonoBehaviour
         e3 = false;
 
         eWon = false;
+
+        dialogueManager = FindFirstObjectByType<DialogueManager>();
     }
 
     // Update is called once per frame
@@ -58,6 +66,9 @@ public class RPGManagerEnemy : MonoBehaviour
             {
                 animator.Play("Enemy1Attack");
                 DoDelayAction(2.0f);
+                RPGGameManager.pSetH(-10);
+                message[0] = "The enemy attacked the player! The player has " + RPGGameManager.pGetH() + " health left!";
+                dialogueFinished = false;
             }
         }
         if (e2)
@@ -78,6 +89,7 @@ public class RPGManagerEnemy : MonoBehaviour
             {
                 animator.Play("Enemy2Attack");
                 DoDelayAction(2.0f);
+                RPGGameManager.pSetH(-15);
             }
         }
         if (e3)
@@ -87,6 +99,7 @@ public class RPGManagerEnemy : MonoBehaviour
                 RPGGameManager.setWinP(true);
                 eWon = false;
                 AngerAndCalm.setState(3);
+                dialogueFinished = true;
             }
             setTurnE();
             if (!enemyTurn)
@@ -97,6 +110,7 @@ public class RPGManagerEnemy : MonoBehaviour
             {
                 animator.Play("Enemy3Attack");
                 DoDelayAction(2.0f);
+                RPGGameManager.pSetH(-20);
             }
         }
     }
@@ -115,12 +129,13 @@ public class RPGManagerEnemy : MonoBehaviour
         
     }
 
-    public void eSetH(int health)
+
+    public static void eSetH(int health)
     {
         enemyHealth += health;
     }
 
-    public int eGetH()
+    public static int eGetH()
     {
         return enemyHealth;
     }
@@ -145,5 +160,14 @@ public class RPGManagerEnemy : MonoBehaviour
     public static void setWinE(bool didWIn)
     {
         eWon = didWIn;
+    }
+
+    public static void reset()
+    {
+        e1 = true;
+        enemyHealth = 90;
+        enemyAttack = false;
+        enemyTurn = false;
+        eWon = false;
     }
 }
