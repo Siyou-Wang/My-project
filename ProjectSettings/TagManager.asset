@@ -11,6 +11,7 @@ TagManager:
   - Terminal
   - Attack
   - BackEng
+  - Heal
   layers:
   - Default
   - TransparentFX
