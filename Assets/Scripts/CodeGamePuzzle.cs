@@ -20,7 +20,7 @@ public class CodeGamePuzzle : MonoBehaviour
     private static bool add1;
     private static bool add2;
 
-    private static bool completeCode = false;
+    public static bool completeCode = false;
 
     public int value = -1;
 

@@ -6,14 +6,14 @@ public class DialogueManager : MonoBehaviour
     public GameObject background;
     public Text dText;
     private string[] strings;
-    private int count = -1;
+    private int count = 1;
 
     bool dialogueActive = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        background.SetActive(false);
     }
 
     // Update is called once per frame
@@ -27,8 +27,11 @@ public class DialogueManager : MonoBehaviour
                 dialogueActive = false;
                 count = 0;
             }
-            dText.text = strings[count];
-            count++;
+            
+            
+                dText.text = strings[count];
+                count++;
+            
         }
     }
 

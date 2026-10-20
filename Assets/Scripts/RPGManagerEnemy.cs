@@ -49,6 +49,11 @@ public class RPGManagerEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (RPGGameManager.playerAttack&&!RPGGameManager.playerTurn)
+        {
+            enemyTurn = true;
+            enemyAttack = true;
+        }
         
         if (e1)
         {
@@ -63,28 +68,25 @@ public class RPGManagerEnemy : MonoBehaviour
             if (!enemyTurn) {
                 animator.Play("Enemy1Default");
             }
-            else
-            {
-                
-                
-                if (enemyTurn)
-                {
-                    RPGGameManager.pSetH(-10);
-                    enemyTurn = false;
-                    message[0] = "The enemy attacked the player! The player has " + RPGGameManager.pGetH() + " health left!";
-                    dialogueFinished = false;
-                    
-                    
-                }
 
-
-            }
             if (enemyAttack)
             {
                 animator.Play("Enemy1Attack");
-                DoDelayAction(2.0f);
+                DoDelayAction(3.0f);
 
             }
+
+            if (enemyTurn && !RPGGameManager.playerAttack)
+                {
+                
+                RPGGameManager.pSetH(-1 * Random.Range(10,15));
+                    enemyTurn = false;
+                    
+                    
+                    
+             }
+
+            
         }
         if (e2)
         {
@@ -100,28 +102,27 @@ public class RPGManagerEnemy : MonoBehaviour
             {
                 animator.Play("Enemy2Default");
             }
-            else
+
+            if (enemyAttack)
             {
-                
-                
-                
-                if (enemyTurn)
+                animator.Play("Enemy2Attack");
+                DoDelayAction(3.0f);
+            }
+
+            if (enemyTurn && !RPGGameManager.playerAttack)
                 {
-                    RPGGameManager.pSetH(-15);
+                
+                RPGGameManager.pSetH(-1 * Random.Range(15,20));
                     enemyTurn = false;
-                    message[0] = "The enemy attacked the player! The player has " + RPGGameManager.pGetH() + " health left!";
-                    dialogueFinished = false;
+                    //message[0] = "The enemy attacked the player! The player has " + RPGGameManager.pGetH() + " health left!";
+                    //dialogueFinished = false;
                     
                     
                 }
                 
                 
-            }
-            if (enemyAttack)
-            {
-                animator.Play("Enemy2Attack");
-                DoDelayAction(2.0f);
-            }
+            
+            
         }
         if (e3)
         {
@@ -137,27 +138,36 @@ public class RPGManagerEnemy : MonoBehaviour
             {
                 animator.Play("Enemy3Default");
             }
-            else
+
+            if (enemyAttack)
             {
-                
-                
-                
-                if (enemyTurn)
+                animator.Play("Enemy3Attack");
+                DoDelayAction(3.0f);
+            }
+
+
+            if (enemyTurn && !RPGGameManager.playerAttack)
                 {
-                    RPGGameManager.pSetH(-20);
+                
+                RPGGameManager.pSetH(-1 * Random.Range(20,25));
                     enemyTurn = false;
-                    message[0] = "The enemy attacked the player! The player has " + RPGGameManager.pGetH() + " health left!";
-                    dialogueFinished = false;
+                    //message[0] = "The enemy attacked the player! The player has " + RPGGameManager.pGetH() + " health left!";
+                    //dialogueFinished = false;
                     
                     
                 }
                 
-            }
-            if (enemyAttack)
-            {
-                animator.Play("Enemy3Attack");
-                DoDelayAction(2.0f);
-            }
+            
+            
+        }
+
+        if (!dialogueFinished)
+        {
+            dialogueManager.ShowBox(message);
+        }
+        if(!dialogueFinished && Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            dialogueFinished = true;
         }
     }
 
@@ -171,9 +181,11 @@ public class RPGManagerEnemy : MonoBehaviour
         
         yield return new WaitForSeconds(delayTime);
         enemyAttack = false;
-        
-        
-        
+        message[0] = "The enemy attacked the player! The player has " + RPGGameManager.pGetH() + " health left!";
+        dialogueFinished = false;
+
+
+
     }
 
 

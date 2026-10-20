@@ -10,10 +10,10 @@ public class RPGGameManager : MonoBehaviour
     private Transform attack;
     private Animator animator;
 
-    private static bool playerTurn;
+    public static bool playerTurn;
     private static int playerHealth;
     
-    private static bool playerAttack;
+    public static bool playerAttack;
     private Transform enemy;
 
     private static bool won;
@@ -54,6 +54,16 @@ public class RPGGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (!dialogueFinished)
+        {
+            dialogueManager.ShowBox(message);
+        }
+        if (!dialogueFinished && Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            dialogueFinished = true;
+        }
+
         //Debug.Log("Player health: " + playerHealth + "; Enemy health: " + RPGManagerEnemy.eGetH());
 
         if (playerHealth <= 0 && loseCount < 4)
@@ -63,16 +73,19 @@ public class RPGGameManager : MonoBehaviour
             if (loseCount >= 1)
             {
                 heart.GetComponent<SpriteRenderer>().enabled = false;
-                AngerAndCalm.setState(-2);
+                AngerAndCalm.setState(-3);
+                playerHealth = 100;
                 if (loseCount >= 2)
                 {
                     heart1.GetComponent<SpriteRenderer>().enabled = false;
-                    AngerAndCalm.setState(-2);
+                    AngerAndCalm.setState(-3);
+                    playerHealth = 90;
 
                     if (loseCount >= 3)
                     {
                         heart2.GetComponent<SpriteRenderer>().enabled = false;
-                        AngerAndCalm.setState(-2);
+                        AngerAndCalm.setState(-3);
+                        playerHealth = 70;
                         dialogueFinished = true;
                     }
                 }
@@ -101,30 +114,40 @@ public class RPGGameManager : MonoBehaviour
 
             if (hit.collider != null)
             {
-                if(hit.collider.gameObject.tag == "Attack")
+                if (playerTurn)
                 {
-                    playerAttack = true;
-                    RPGManagerEnemy.eSetH(-15);
-                    message[0] = "The player attacked the enemy! The enemy has " + RPGManagerEnemy.eGetH() + " health left!";
-                    dialogueFinished = false;
+                    if (hit.collider.gameObject.tag == "Attack")
+                    {
+                        playerAttack = true;
+                        RPGManagerEnemy.eSetH(-1 * Random.Range(10, 20));
+                        message[0] = "The player attacked the enemy! The enemy has " + RPGManagerEnemy.eGetH() + " health left!";
+                        dialogueFinished = false;
+                        animator.Play("PlayerAttack");
+                        
+                        
+                    }
 
+                    if (hit.collider.gameObject.tag == "Heal" && playerHealth <= 110)
+                    {
+                        playerAttack = true;
+                        playerHealth += Random.Range(0, 5);
+                        message[0] = "The player Healed! The player has " + playerHealth + " health left!";
+                        dialogueFinished = false;
+                        
+                        
+                    }
+                    DoDelayAction(1.0f);
                 }
             }
         }
 
-        if (playerAttack)
-        {
-            
-            animator.Play("PlayerAttack");
-            
-            DoDelayAction(1.0f);
-            
-            
-        }
-        else
+        
+        if(!playerAttack)
         {
             animator.Play("PlayerDefault");
         }
+
+        
     }
 
     void DoDelayAction(float delaytime)
@@ -134,13 +157,17 @@ public class RPGGameManager : MonoBehaviour
 
     IEnumerator DelayAction(float delayTime)
     {
+
         playerTurn = false;
-        RPGManagerEnemy.setTurnE();
         yield return new WaitForSeconds(delayTime);
+        
         playerAttack = false;
-        RPGManagerEnemy.enemyAttack = true;
+        //RPGManagerEnemy.setTurnE();
+        //RPGManagerEnemy.enemyAttack = true;
         
     }
+
+
 
     public static void pSetH(int health)
     {
@@ -171,4 +198,6 @@ public class RPGGameManager : MonoBehaviour
         playerAttack = false;
         RPGManagerEnemy.reset();
     }
+
+    
 }
