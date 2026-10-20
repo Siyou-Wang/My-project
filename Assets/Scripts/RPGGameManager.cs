@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class RPGGameManager : MonoBehaviour
 {
@@ -12,20 +13,38 @@ public class RPGGameManager : MonoBehaviour
     private static bool playerTurn;
     private static int playerHealth;
     
-    private bool playerAttack;
+    private static bool playerAttack;
     private Transform enemy;
 
+    private static bool won;
+
+    private Transform heart;
+    private Transform heart1;
+    private Transform heart2;
+    private static int loseCount;
+
+    private DialogueManager dialogueManager;
+    private bool dialogueFinished = true;
+    private string[] message = new string[1];
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         player = GameObject.Find("Player").transform;
         attack = GameObject.Find("Attack").transform;
-        
+
+        heart = GameObject.Find("Heart").transform;
+        heart1 = GameObject.Find("Heart (1)").transform;
+        heart2 = GameObject.Find("Heart (2)").transform;
+
         playerTurn = true;
         playerHealth = 100;
         
         playerAttack = false;
+        won = false;
+        loseCount = 0;
+
+        dialogueManager = FindFirstObjectByType<DialogueManager>();
         
         animator = GetComponent<Animator>();
 
@@ -35,6 +54,36 @@ public class RPGGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(playerHealth <= 0 && loseCount < 4)
+        {
+            loseCount++;
+            playerHealth = 100;
+            if (loseCount >= 1)
+            {
+                heart.GetComponent<SpriteRenderer>().enabled = false;
+                AngerAndCalm.setState(-2);
+                if (loseCount >= 2)
+                {
+                    heart1.GetComponent<SpriteRenderer>().enabled = false;
+                    AngerAndCalm.setState(-2);
+
+                    if (loseCount >= 3)
+                    {
+                        heart2.GetComponent<SpriteRenderer>().enabled = false;
+                        AngerAndCalm.setState(-2);
+                        dialogueFinished = true;
+                    }
+                }
+                
+            }
+
+        }
+        else if(playerHealth <= 0 && loseCount == 4)
+        {
+            RPGManagerEnemy.setWinE(true);
+            won = false;
+            
+        }
         if (!RPGManagerEnemy.eTurn())
         {
             playerTurn = true;
@@ -63,6 +112,9 @@ public class RPGGameManager : MonoBehaviour
             
             animator.Play("PlayerAttack");
             DoDelayAction(1.0f);
+            RPGManagerEnemy.eSetH(-15);
+            message[0] = "The player attacked the enemy! The enemy has " + RPGManagerEnemy.eGetH() + " health left!";
+            dialogueFinished = false;
             
             
         }
@@ -85,17 +137,33 @@ public class RPGGameManager : MonoBehaviour
         RPGManagerEnemy.setTurnE();
     }
 
-    public void pSetH(int health)
+    public static void pSetH(int health)
     {
         playerHealth += health;
     }
 
-    public int pGetH()
+    public static int pGetH()
     {
         return playerHealth;
     }
     public static bool getPTurn()
     {
         return playerTurn;
+    }
+
+    public static void setWinP(bool didWin)
+    {
+        won = didWin;
+    }
+
+    public static void resetGame()
+    {
+        //Camera.main.transform.position = new Vector3(20, 0, -10);
+        AngerAndCalm.reset();
+        playerHealth = 100;
+        playerTurn = true;
+        loseCount = 0;
+        playerAttack = false;
+        RPGManagerEnemy.reset();
     }
 }

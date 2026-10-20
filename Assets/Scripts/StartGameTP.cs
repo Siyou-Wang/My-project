@@ -5,12 +5,16 @@ using System.Collections.Generic;
 public class StartGameTP : MonoBehaviour
 {
     //private Transform startButton;
+    public static bool startPG;
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         //startButton = GameObject.Find("startButton").transform;
         //Debug.Log("start");
+        startPG = false;
+    
     }
 
     // Update is called once per frame
@@ -31,15 +35,20 @@ public class StartGameTP : MonoBehaviour
                 if (hit.collider.gameObject.tag == "StartButton")
                 {
                     Camera.main.transform.position = new Vector3(20, 0, -10);
+                    startPG = false;
                     
                 }
                 else if (hit.collider.gameObject.tag == "ProgramingFile")
                 {
                     Camera.main.transform.position = new Vector3(40, 0, -10);
+                    AngerAndCalm.reset();
+                    startPG = true;
+                    CodeGamePuzzle.reset();
                 }
                 else if (hit.collider.gameObject.tag == "BackToScreen")
                 {
                     Camera.main.transform.position = new Vector3(20, 0, -10);
+                    
                 }
                 else if (hit.collider.gameObject.tag == "Terminal")
                 {

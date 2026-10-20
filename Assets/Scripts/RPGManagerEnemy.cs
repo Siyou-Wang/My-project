@@ -1,21 +1,29 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 
 public class RPGManagerEnemy : MonoBehaviour
 {
     private Transform enemy;
-    private bool enemyAttack;
     private Animator animator;
-    private int enemyHealth;
+    private static int enemyHealth;
     private static bool enemyTurn;
+    private static bool enemyAttack;
 
-    private bool e1;
-    private bool e2;
-    private bool e3;
+    private static bool e1;
+    private static bool e2;
+    private static bool e3;
 
     private Transform player;
+
+    private static bool eWon;
+
+    private DialogueManager dialogueManager;
+    private bool dialogueFinished = true;
+    private string[] message = new string[1];
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,6 +39,10 @@ public class RPGManagerEnemy : MonoBehaviour
         e1 = true;
         e2 = false;
         e3 = false;
+
+        eWon = false;
+
+        dialogueManager = FindFirstObjectByType<DialogueManager>();
     }
 
     // Update is called once per frame
@@ -39,6 +51,13 @@ public class RPGManagerEnemy : MonoBehaviour
         
         if (e1)
         {
+            if(enemyHealth <= 0)
+            {
+                e1 = false;
+                e2 = true;
+                enemyHealth = 110;
+                AngerAndCalm.setState(3);
+            }
             setTurnE();
             if (!enemyTurn) {
                 animator.Play("Enemy1Default");
@@ -47,6 +66,51 @@ public class RPGManagerEnemy : MonoBehaviour
             {
                 animator.Play("Enemy1Attack");
                 DoDelayAction(2.0f);
+                RPGGameManager.pSetH(-10);
+                message[0] = "The enemy attacked the player! The player has " + RPGGameManager.pGetH() + " health left!";
+                dialogueFinished = false;
+            }
+        }
+        if (e2)
+        {
+            if(enemyHealth <= 0)
+            {
+                e2 = false;
+                e3 = true;
+                enemyHealth = 130;
+                AngerAndCalm.setState(3);
+            }
+            setTurnE();
+            if (!enemyTurn)
+            {
+                animator.Play("Enemy2Default");
+            }
+            else
+            {
+                animator.Play("Enemy2Attack");
+                DoDelayAction(2.0f);
+                RPGGameManager.pSetH(-15);
+            }
+        }
+        if (e3)
+        {
+            if (enemyHealth <= 0)
+            {
+                RPGGameManager.setWinP(true);
+                eWon = false;
+                AngerAndCalm.setState(3);
+                dialogueFinished = true;
+            }
+            setTurnE();
+            if (!enemyTurn)
+            {
+                animator.Play("Enemy3Default");
+            }
+            else
+            {
+                animator.Play("Enemy3Attack");
+                DoDelayAction(2.0f);
+                RPGGameManager.pSetH(-20);
             }
         }
     }
@@ -65,12 +129,13 @@ public class RPGManagerEnemy : MonoBehaviour
         
     }
 
-    public void eSetH(int health)
+
+    public static void eSetH(int health)
     {
         enemyHealth += health;
     }
 
-    public int eGetH()
+    public static int eGetH()
     {
         return enemyHealth;
     }
@@ -90,5 +155,19 @@ public class RPGManagerEnemy : MonoBehaviour
     public static bool eTurn()
     {
         return enemyTurn;
+    }
+
+    public static void setWinE(bool didWIn)
+    {
+        eWon = didWIn;
+    }
+
+    public static void reset()
+    {
+        e1 = true;
+        enemyHealth = 90;
+        enemyAttack = false;
+        enemyTurn = false;
+        eWon = false;
     }
 }

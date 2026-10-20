@@ -31,6 +31,7 @@ public class EngATP : MonoBehaviour
                 {
                     Camera.main.transform.position = new Vector3(60, 0, -10);
                     isCalled = true;
+                    AngerAndCalm.reset();
                 }
                 if(hit.collider.gameObject == backButton)
                 {
