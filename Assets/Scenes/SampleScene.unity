@@ -1569,20 +1569,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd2b6d0f09000473eae954d4d3a54543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EngATP
---- !u!114 &782538652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 782538646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12e4722a3a7d843df9ad1acd0e3e304a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EngAGroundReveal
-  backgroundScroll: {fileID: 0}
-  hideSpriteAfterClick: 1
 --- !u!1 &831937205
 GameObject:
   m_ObjectHideFlags: 0
@@ -2270,7 +2256,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 313272496}
   - {fileID: 1293672186}
   m_Father: {fileID: 1597582678}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2675,7 +2660,10 @@ MonoBehaviour:
   baseSpeed: 0.5
   speedPerCorrectChar: 0.05
   glideSpeed: 10
-  startHidden: 1
+  prompt: {fileID: 0}
+  sentences:
+  - Quoth the Raven, "Nevermore."
+  - All that we see or seem is but a dream within a dream.
 --- !u!1 &1233398629
 GameObject:
   m_ObjectHideFlags: 0
@@ -3179,7 +3167,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1332362876
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3971,7 +3959,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   background: {fileID: 1160416383}
-  dText: {fileID: 313272497}
+  dText: {fileID: 0}
 --- !u!1 &1669673337
 GameObject:
   m_ObjectHideFlags: 0
@@ -5363,7 +5351,10 @@ MonoBehaviour:
   baseSpeed: 0.5
   speedPerCorrectChar: 0.05
   glideSpeed: 10
-  startHidden: 1
+  prompt: {fileID: 1332362877}
+  sentences:
+  - Quoth the Raven, "Nevermore."
+  - All that we see or seem is but a dream within a dream.
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -5375,7 +5366,6 @@ SceneRoots:
   - {fileID: 978431973}
   - {fileID: 1817656235}
   - {fileID: 1233398633}
-  - {fileID: 468222589}
   - {fileID: 831937209}
   - {fileID: 1404038806}
   - {fileID: 145602385}
@@ -5399,7 +5389,6 @@ SceneRoots:
   - {fileID: 1669673339}
   - {fileID: 188618872}
   - {fileID: 724889222}
-  - {fileID: 302898710}
   - {fileID: 1729609568}
   - {fileID: 1192650559}
   - {fileID: 1963582954}
