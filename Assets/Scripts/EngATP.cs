@@ -33,9 +33,11 @@ public class EngATP : MonoBehaviour
                     isCalled = true;
                     AngerAndCalm.reset();
                 }
-                if(hit.collider.gameObject == backButton)
+                if(hit.collider.gameObject.tag == "BackEng")
                 {
                     isCalled = false;
+                    Camera.main.transform.position = new Vector3(20, 0, -10);
+                    //Debug.Log("hit");
                 }
             }
         }

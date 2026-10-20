@@ -99,7 +99,7 @@ public class CodeGamePuzzle : MonoBehaviour
 
     public static void reset()
     {
-        codeEnd.position = new Vector3(45,2,1);
+        codeStart.position = new Vector3(45,2,1);
         codeMid.position = new Vector3(45,0,1);
         codeEnd.position = new Vector3(39,3,1);
         completeCode = false;

@@ -19,7 +19,7 @@ public class DialogueManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(dialogueActive && Input.GetKeyDown(KeyCode.Space))
+        if(dialogueActive && Input.GetKeyDown(KeyCode.Mouse1))
         {
             if(count == strings.Length)
             {

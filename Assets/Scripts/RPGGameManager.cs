@@ -54,7 +54,9 @@ public class RPGGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(playerHealth <= 0 && loseCount < 4)
+        //Debug.Log("Player health: " + playerHealth + "; Enemy health: " + RPGManagerEnemy.eGetH());
+
+        if (playerHealth <= 0 && loseCount < 4)
         {
             loseCount++;
             playerHealth = 100;
@@ -102,7 +104,10 @@ public class RPGGameManager : MonoBehaviour
                 if(hit.collider.gameObject.tag == "Attack")
                 {
                     playerAttack = true;
-                    
+                    RPGManagerEnemy.eSetH(-15);
+                    message[0] = "The player attacked the enemy! The enemy has " + RPGManagerEnemy.eGetH() + " health left!";
+                    dialogueFinished = false;
+
                 }
             }
         }
@@ -111,10 +116,8 @@ public class RPGGameManager : MonoBehaviour
         {
             
             animator.Play("PlayerAttack");
+            
             DoDelayAction(1.0f);
-            RPGManagerEnemy.eSetH(-15);
-            message[0] = "The player attacked the enemy! The enemy has " + RPGManagerEnemy.eGetH() + " health left!";
-            dialogueFinished = false;
             
             
         }
@@ -131,10 +134,12 @@ public class RPGGameManager : MonoBehaviour
 
     IEnumerator DelayAction(float delayTime)
     {
-        yield return new WaitForSeconds(delayTime);
-        playerAttack = false;
         playerTurn = false;
         RPGManagerEnemy.setTurnE();
+        yield return new WaitForSeconds(delayTime);
+        playerAttack = false;
+        RPGManagerEnemy.enemyAttack = true;
+        
     }
 
     public static void pSetH(int health)

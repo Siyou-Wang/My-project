@@ -10,7 +10,8 @@ public class RPGManagerEnemy : MonoBehaviour
     private Animator animator;
     private static int enemyHealth;
     private static bool enemyTurn;
-    private static bool enemyAttack;
+    public static bool enemyAttack;
+  
 
     private static bool e1;
     private static bool e2;
@@ -64,11 +65,25 @@ public class RPGManagerEnemy : MonoBehaviour
             }
             else
             {
+                
+                
+                if (enemyTurn)
+                {
+                    RPGGameManager.pSetH(-10);
+                    enemyTurn = false;
+                    message[0] = "The enemy attacked the player! The player has " + RPGGameManager.pGetH() + " health left!";
+                    dialogueFinished = false;
+                    
+                    
+                }
+
+
+            }
+            if (enemyAttack)
+            {
                 animator.Play("Enemy1Attack");
                 DoDelayAction(2.0f);
-                RPGGameManager.pSetH(-10);
-                message[0] = "The enemy attacked the player! The player has " + RPGGameManager.pGetH() + " health left!";
-                dialogueFinished = false;
+
             }
         }
         if (e2)
@@ -87,9 +102,25 @@ public class RPGManagerEnemy : MonoBehaviour
             }
             else
             {
+                
+                
+                
+                if (enemyTurn)
+                {
+                    RPGGameManager.pSetH(-15);
+                    enemyTurn = false;
+                    message[0] = "The enemy attacked the player! The player has " + RPGGameManager.pGetH() + " health left!";
+                    dialogueFinished = false;
+                    
+                    
+                }
+                
+                
+            }
+            if (enemyAttack)
+            {
                 animator.Play("Enemy2Attack");
                 DoDelayAction(2.0f);
-                RPGGameManager.pSetH(-15);
             }
         }
         if (e3)
@@ -108,9 +139,24 @@ public class RPGManagerEnemy : MonoBehaviour
             }
             else
             {
+                
+                
+                
+                if (enemyTurn)
+                {
+                    RPGGameManager.pSetH(-20);
+                    enemyTurn = false;
+                    message[0] = "The enemy attacked the player! The player has " + RPGGameManager.pGetH() + " health left!";
+                    dialogueFinished = false;
+                    
+                    
+                }
+                
+            }
+            if (enemyAttack)
+            {
                 animator.Play("Enemy3Attack");
                 DoDelayAction(2.0f);
-                RPGGameManager.pSetH(-20);
             }
         }
     }
@@ -122,9 +168,10 @@ public class RPGManagerEnemy : MonoBehaviour
 
     IEnumerator DelayAction(float delayTime)
     {
+        
         yield return new WaitForSeconds(delayTime);
         enemyAttack = false;
-        enemyTurn = false;
+        
         
         
     }

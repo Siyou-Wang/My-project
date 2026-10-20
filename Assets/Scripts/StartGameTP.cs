@@ -31,7 +31,7 @@ public class StartGameTP : MonoBehaviour
             
             if (hit.collider != null)
             {
-                Debug.Log("clicked1");
+                //Debug.Log("clicked1");
                 if (hit.collider.gameObject.tag == "StartButton")
                 {
                     Camera.main.transform.position = new Vector3(20, 0, -10);
