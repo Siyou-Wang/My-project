@@ -41,8 +41,6 @@ public class AngerAndCalm : MonoBehaviour
     {
         if(mentalState < 0)
         {
-            
-            
             if (mentalState > -5)
             {
                 fire.GetComponent<Image>().enabled = true;
