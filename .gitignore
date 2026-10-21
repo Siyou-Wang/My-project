@@ -115,7 +115,6 @@ InitTestScene*.unity*
 
 # JetBrains Rider
 .idea/
-.idea/.idea.*/
 *.sln.iml
 
 # macOS

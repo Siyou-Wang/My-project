@@ -38,7 +38,6 @@ public class CodeGamePuzzle : MonoBehaviour
         add = false;
         add1 = false;
         add2 = false;
-
     }
 
     // Update is called once per frame

@@ -1,15 +1,14 @@
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+using PhysicsGame;
 
-public class StartGameTP : MonoBehaviour
+public class StartGameTp : MonoBehaviour
 {
     //private Transform startButton;
     public static bool startPG;
     public static bool startPhy;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
         //startButton = GameObject.Find("startButton").transform;
         //Debug.Log("start");
@@ -19,7 +18,7 @@ public class StartGameTP : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         
@@ -37,6 +36,7 @@ public class StartGameTP : MonoBehaviour
                 {
                     Camera.main.transform.position = new Vector3(20, 0, -10);
                     startPG = false;
+                    startPhy = false;
                     
                 }
                 else if (hit.collider.gameObject.tag == "ProgramingFile")
@@ -49,11 +49,13 @@ public class StartGameTP : MonoBehaviour
                 else if (hit.collider.gameObject.tag == "BackToScreen")
                 {
                     Camera.main.transform.position = new Vector3(20, 0, -10);
-                    
+                    startPhy = false;
+
                 }
                 else if (hit.collider.gameObject.tag == "Terminal")
                 {
                     Camera.main.transform.position = new Vector3(20, -20, -10);
+                    startPhy = false;
                 }
                 else if (hit.collider.gameObject.tag == "PhysicsFile")
                 {
