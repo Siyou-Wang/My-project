@@ -103,6 +103,10 @@ public class CodeGamePuzzle : MonoBehaviour
         codeEnd.position = new Vector3(39,3,1);
         completeCode = false;
 
+        codeStart.GetComponent<BoxCollider2D>().enabled = true;
+        codeMid.GetComponent<BoxCollider2D>().enabled = true;
+        codeEnd.GetComponent<BoxCollider2D>().enabled = true;
+
         add = false;
         add1 = false;
         add2 = false;

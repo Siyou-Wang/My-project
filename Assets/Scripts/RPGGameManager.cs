@@ -36,7 +36,7 @@ public class RPGGameManager : MonoBehaviour
         heart2 = GameObject.Find("Heart (2)").transform;
 
         playerTurn = true;
-        playerHealth = 100;
+        playerHealth = 150;
         
         playerAttack = false;
         won = false;
@@ -68,24 +68,24 @@ public class RPGGameManager : MonoBehaviour
         if (playerHealth <= 0 && loseCount < 4)
         {
             loseCount++;
-            playerHealth = 100;
+            playerHealth = 80;
             
             if (loseCount >= 1)
             {
                 heart.GetComponent<SpriteRenderer>().enabled = false;
                 AngerAndCalm.setState(-3);
-                playerHealth = 100;
+                playerHealth = 70;
                 if (loseCount >= 2)
                 {
                     heart1.GetComponent<SpriteRenderer>().enabled = false;
                     AngerAndCalm.setState(-3);
-                    playerHealth = 90;
+                    playerHealth = 60;
 
                     if (loseCount >= 3)
                     {
                         heart2.GetComponent<SpriteRenderer>().enabled = false;
                         AngerAndCalm.setState(-3);
-                        playerHealth = 70;
+                        playerHealth = 50;
                         dialogueFinished = true;
                     }
                 }
