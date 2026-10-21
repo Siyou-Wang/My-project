@@ -8,6 +8,9 @@ public class EngAGroundScroll : MonoBehaviour
     private float groundWidth;
     private Camera cam;
 
+    public static bool isTyping;
+   
+
     [SerializeField] private float baseSpeed = 0.5f;
     [SerializeField] private float speedPerCorrectChar = 0.05f;
     [SerializeField] private float glideSpeed = 10f;
@@ -29,6 +32,8 @@ public class EngAGroundScroll : MonoBehaviour
 
     void Start()
     {
+        isTyping = false;
+
         Debug.Log("BackgroundScroll Start running");
         GameObject g1 = GameObject.Find("EngAGround1");
         GameObject g2 = GameObject.Find("EngAGround2");
@@ -63,6 +68,7 @@ public class EngAGroundScroll : MonoBehaviour
     {
         HandleTyping();
         ScrollGround();
+        
     }
 
     // Load a sentence from the list (wraps around at the end)
@@ -83,7 +89,12 @@ public class EngAGroundScroll : MonoBehaviour
 
     void HandleTyping()
     {
-        if (string.IsNullOrEmpty(typeAnsw)) return;
+
+        if (string.IsNullOrEmpty(typeAnsw))
+        {
+            
+            return;
+        }
 
         foreach (char pressedChar in Input.inputString)
         {
@@ -96,6 +107,8 @@ public class EngAGroundScroll : MonoBehaviour
                 speed = baseSpeed + streak * speedPerCorrectChar;
                 typeDex++;
 
+                
+
                 if (typeDex >= typeAnsw.Length)
                     LoadSentence(sentenceIndex + 1); // finished: next sentence, streak keeps going
                 else if (prompt != null)
@@ -107,15 +120,24 @@ public class EngAGroundScroll : MonoBehaviour
                 streak = 0;
                 speed = baseSpeed;
                 pendingDistance = 0f;
-                if (prompt != null) prompt.SetProgress(0);
+                if (prompt != null)
+                {
+                    prompt.SetProgress(0);
+                    isTyping = false;
+                }
+               
             }
         }
     }
 
     void ScrollGround()
     {
-        if (pendingDistance <= 0f) return;
-
+        if (pendingDistance <= 0f)
+        {
+            
+            return;
+        }
+        isTyping = true;
         float step = Mathf.Min(pendingDistance, glideSpeed * Time.deltaTime);
         pendingDistance -= step;
 
@@ -132,6 +154,7 @@ public class EngAGroundScroll : MonoBehaviour
             Transform temp = ground1;
             ground1 = ground2;
             ground2 = temp;
+
         }
     }
 }

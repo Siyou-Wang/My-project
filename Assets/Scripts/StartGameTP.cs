@@ -6,7 +6,7 @@ public class StartGameTP : MonoBehaviour
 {
     //private Transform startButton;
     public static bool startPG;
-    
+    public static bool startPhy;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -14,6 +14,7 @@ public class StartGameTP : MonoBehaviour
         //startButton = GameObject.Find("startButton").transform;
         //Debug.Log("start");
         startPG = false;
+        startPhy = false;
     
     }
 
@@ -53,6 +54,11 @@ public class StartGameTP : MonoBehaviour
                 else if (hit.collider.gameObject.tag == "Terminal")
                 {
                     Camera.main.transform.position = new Vector3(20, -20, -10);
+                }
+                else if (hit.collider.gameObject.tag == "PhysicsFile")
+                {
+                    Camera.main.transform.position = new Vector3(80, -20, -10);
+                    startPhy = true;
                 }
             }
         }

@@ -1,16 +1,20 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class EngATP : MonoBehaviour
 {
     //private Transform startButton;
     public static bool isCalled = false;
     private Transform backButton;
+    public GameObject textMask;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         backButton = GameObject.Find("BackToScreen ENG").transform;
+        
+        textMask.SetActive(false);
     }
 
     // Update is called once per frame
@@ -32,11 +36,13 @@ public class EngATP : MonoBehaviour
                     Camera.main.transform.position = new Vector3(60, 0, -10);
                     isCalled = true;
                     AngerAndCalm.reset();
+                    textMask.SetActive(true);
                 }
                 if(hit.collider.gameObject.tag == "BackEng")
                 {
                     isCalled = false;
                     Camera.main.transform.position = new Vector3(20, 0, -10);
+                    
                     //Debug.Log("hit");
                 }
             }

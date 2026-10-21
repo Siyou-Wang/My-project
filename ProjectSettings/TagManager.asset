@@ -12,6 +12,7 @@ TagManager:
   - Attack
   - BackEng
   - Heal
+  - PhysicsFile
   layers:
   - Default
   - TransparentFX
