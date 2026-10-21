@@ -1,4 +1,7 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class EngATP : MonoBehaviour
 {
@@ -17,14 +20,15 @@ public class EngATP : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!StartGameTp.StartEng) return;
-        
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        
         Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
         RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
 
         if (Input.GetMouseButtonDown(0))
         {
+            
             if (hit.collider != null)
             {
                 if (hit.collider.gameObject.tag == "EngATP")
@@ -34,7 +38,7 @@ public class EngATP : MonoBehaviour
                     AngerAndCalm.reset();
                     textMask.SetActive(true);
                 }
-                if (hit.collider.gameObject.tag == "BackEng")
+                if(hit.collider.gameObject.tag == "BackEng")
                 {
                     isCalled = false;
                     Camera.main.transform.position = new Vector3(20, 0, -10);
