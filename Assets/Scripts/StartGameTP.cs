@@ -10,7 +10,7 @@ public class StartGameTp : MonoBehaviour
     private static readonly Vector3 MainScreen = new (20, 0, -10);
     private static readonly Vector3 CodeScreen = new (40, 0, -10);
     private static readonly Vector3 TerminalScreen = new (20, -20, -10);
-    private static readonly Vector3 EnglishScreen = new(60, 0, 11);
+    private static readonly Vector3 EnglishScreen = new (60, 0, -10);
     private static readonly Vector3 PhysicsScreen = new (80, -20, -10);
 
     private Camera _camera;
@@ -36,7 +36,7 @@ public class StartGameTp : MonoBehaviour
         var mousePos2D = new Vector2(mousePos.x, mousePos.y);
         var hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
 
-        if (hit.collider ==null) return;
+        if (hit.collider == null) return;
         
         // Debug.Log("clicked1");
         if (hit.collider.CompareTag("StartButton"))

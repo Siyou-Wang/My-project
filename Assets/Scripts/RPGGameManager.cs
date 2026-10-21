@@ -69,6 +69,7 @@ public class RPGGameManager : MonoBehaviour
         {
             loseCount++;
             playerHealth = 100;
+            
             if (loseCount >= 1)
             {
                 heart.GetComponent<SpriteRenderer>().enabled = false;
@@ -88,9 +89,7 @@ public class RPGGameManager : MonoBehaviour
                         dialogueFinished = true;
                     }
                 }
-                
             }
-
         }
         else if(playerHealth <= 0 && loseCount == 4)
         {
