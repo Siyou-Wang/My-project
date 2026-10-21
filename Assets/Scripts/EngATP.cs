@@ -42,7 +42,8 @@ public class EngATP : MonoBehaviour
                 {
                     isCalled = false;
                     Camera.main.transform.position = new Vector3(20, 0, -10);
-                    
+                    textMask.SetActive(false);
+
                     //Debug.Log("hit");
                 }
             }

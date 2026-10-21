@@ -13,6 +13,10 @@ public class StartGameTp : MonoBehaviour
     private static readonly Vector3 EnglishScreen = new (60, 0, -10);
     private static readonly Vector3 PhysicsScreen = new (80, -20, -10);
 
+    private DialogueManager dialogueManager;
+    private bool dialogueFinished = true;
+    private string[] message = new string[1];
+
     private Camera _camera;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -25,6 +29,8 @@ public class StartGameTp : MonoBehaviour
         StartRpg = false;
         StartEng = false;
         StartPhys = false;
+
+        dialogueManager = FindFirstObjectByType<DialogueManager>();
     }
 
     // Update is called once per frame
