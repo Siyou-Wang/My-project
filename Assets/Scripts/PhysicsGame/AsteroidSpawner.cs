@@ -4,8 +4,9 @@ namespace PhysicsGame
 {
     public class AsteroidSpawner : MonoBehaviour
     {
+        private const float CenterX = 80f;
         private const float MaxDistanceX = 8f;
-        private const float SpawnPositionY = 6f;
+        private const float SpawnPositionY = -13f;
 
         private const float Duration = 30f;
         private const float StartInterval = 1.2f;
@@ -23,17 +24,19 @@ namespace PhysicsGame
 
         private void Update()
         {
+            if (!StartGameTp.StartPhys)
+            {
+                _elapsed = 0f;
+                _timer = 0f;
+                return;
+            }
+            
             _elapsed += Time.deltaTime;
             _timer += Time.deltaTime;
 
-            if (_elapsed >= Duration)
-            {
-                enabled = false;
-                return;
-            }
+            if (_elapsed >= Duration) return;
 
             var interval = Mathf.Max(MinInterval, StartInterval - _elapsed * IntervalShrinkPerSecond);
-
             if (_timer < interval) return;
 
             _timer -= interval;
@@ -43,8 +46,8 @@ namespace PhysicsGame
         private void Spawn()
         {
             var speed = Mathf.Min(MaxSpeed, InitialSpeed + _elapsed * SpeedIncreasePerSecond);
-            var spawnPositionX = Random.Range(-MaxDistanceX, MaxDistanceX);
-            var asteroid = Instantiate(asteroidPrefab, new Vector2(spawnPositionX, SpawnPositionY), Quaternion.identity, transform);
+            var spawnPositionX = Random.Range(CenterX - MaxDistanceX, CenterX + MaxDistanceX);
+            var asteroid = Instantiate(asteroidPrefab, new Vector3(spawnPositionX, SpawnPositionY, 0f), Quaternion.identity, transform);
             
             asteroid.Initialize(speed);
         }

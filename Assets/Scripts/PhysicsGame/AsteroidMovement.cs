@@ -5,18 +5,20 @@ namespace PhysicsGame
     [RequireComponent(typeof(SpriteRenderer))]
     public class AsteroidMovement : MonoBehaviour
     {
-        private const float MaxDistanceY = 6f;
+        private const float MaxDistanceY = 14f;
         private const float FramesPerSecond = 4f;
 
         [SerializeField] private Sprite[] frames;
         
         private SpriteRenderer _spriteRenderer;
-        
+
+        private float _originY;
         private float _speedY = 3f;
 
         private void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _originY = transform.position.y;
         }
 
         private void Update()
@@ -29,7 +31,7 @@ namespace PhysicsGame
                 _spriteRenderer.sprite = frames[i];
             }
 
-            if (transform.position.y < -MaxDistanceY)
+            if (transform.position.y < _originY - MaxDistanceY)
             {
                 Destroy(gameObject);
             }

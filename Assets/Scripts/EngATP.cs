@@ -38,7 +38,7 @@ public class EngATP : MonoBehaviour
                     AngerAndCalm.reset();
                     textMask.SetActive(true);
                 }
-                if (hit.collider.gameObject.tag == "BackEng")
+                if(hit.collider.gameObject.tag == "BackEng")
                 {
                     isCalled = false;
                     Camera.main.transform.position = new Vector3(20, 0, -10);

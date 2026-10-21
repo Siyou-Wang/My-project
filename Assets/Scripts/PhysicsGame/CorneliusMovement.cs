@@ -26,7 +26,7 @@ namespace PhysicsGame
 
         private void Update()
         {
-            if (!StartGameTp.startPhy)
+            if (!StartGameTp.StartPhys)
             {
                 _moveInput = 0f;
                 return;
@@ -42,7 +42,7 @@ namespace PhysicsGame
 
         private void FixedUpdate()
         {
-            if (!StartGameTp.startPhy) return;
+            if (!StartGameTp.StartPhys) return;
             
             var x = _rigidbody.position.x + _moveInput * SpeedX * Time.fixedDeltaTime;
             x = Mathf.Clamp(x, _originX - MaxDistanceX, _originX + MaxDistanceX);
