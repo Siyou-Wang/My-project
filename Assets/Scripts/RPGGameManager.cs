@@ -1,7 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 public class RPGGameManager : MonoBehaviour
 {
@@ -54,7 +52,8 @@ public class RPGGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (!StartGameTp.StartRpg) return;
+        
         if (!dialogueFinished)
         {
             dialogueManager.ShowBox(message);
@@ -64,7 +63,7 @@ public class RPGGameManager : MonoBehaviour
             dialogueFinished = true;
         }
 
-        //Debug.Log("Player health: " + playerHealth + "; Enemy health: " + RPGManagerEnemy.eGetH());
+        // Debug.Log("Player health: " + playerHealth + "; Enemy health: " + RPGManagerEnemy.eGetH());
 
         if (playerHealth <= 0 && loseCount < 4)
         {
@@ -166,9 +165,7 @@ public class RPGGameManager : MonoBehaviour
         //RPGManagerEnemy.enemyAttack = true;
         
     }
-
-
-
+    
     public static void pSetH(int health)
     {
         playerHealth += health;
@@ -178,6 +175,7 @@ public class RPGGameManager : MonoBehaviour
     {
         return playerHealth;
     }
+    
     public static bool getPTurn()
     {
         return playerTurn;

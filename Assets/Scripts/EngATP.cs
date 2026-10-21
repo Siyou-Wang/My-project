@@ -1,7 +1,4 @@
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.UI;
 
 public class EngATP : MonoBehaviour
 {
@@ -20,15 +17,14 @@ public class EngATP : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (!StartGameTp.StartEng) return;
         
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
-
         RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
 
         if (Input.GetMouseButtonDown(0))
         {
-            
             if (hit.collider != null)
             {
                 if (hit.collider.gameObject.tag == "EngATP")
