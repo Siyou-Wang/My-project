@@ -20,10 +20,13 @@ public class EngATP : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (EngAGroundScroll.won || !StartGameTp.StartEng && textMask.activeSelf)
+        {
+            textMask.SetActive(false);
+        }
         
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
-
         RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
 
         if (Input.GetMouseButtonDown(0))
@@ -34,12 +37,14 @@ public class EngATP : MonoBehaviour
                 if (hit.collider.gameObject.tag == "EngATP")
                 {
                     Camera.main.transform.position = new Vector3(60, 0, -10);
+                    StartGameTp.StartEng = true;
                     isCalled = true;
                     AngerAndCalm.reset();
                     textMask.SetActive(true);
                 }
                 if(hit.collider.gameObject.tag == "BackEng")
                 {
+                    StartGameTp.StartEng = false;
                     isCalled = false;
                     Camera.main.transform.position = new Vector3(20, 0, -10);
                     textMask.SetActive(false);

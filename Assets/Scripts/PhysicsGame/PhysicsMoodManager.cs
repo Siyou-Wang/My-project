@@ -8,7 +8,7 @@ namespace PhysicsGame
         private const int AngerPerHit = 1;
         private const int CalmPerTick = 1;
         private const float SecondsPerCalmTick = 5f;
-        private const float SurviveSeconds = 60f;
+        private const float SurviveSeconds = 5f;
         
         [SerializeField] private CorneliusCollision cornelius;
 

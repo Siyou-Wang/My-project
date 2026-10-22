@@ -69,6 +69,8 @@ public class EngAGroundScroll : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("StartEng=" + StartGameTp.StartEng + " won=" + won);
+        
         if (won || !StartGameTp.StartEng) return;
         
         HandleTyping();

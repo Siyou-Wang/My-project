@@ -19,9 +19,17 @@ public class StartGameTp : MonoBehaviour
     private static readonly Vector3 PhysicsScreen = new (80, -20, -10);
     private static readonly Vector3 JokeScreen = new (60, 60, -10);
 
-    private Transform pgFile;
-    private Transform phFile;
-    private Transform engFile;
+    private Transform _rpgFile;
+    private Transform _physFile;
+    private Transform _engFile;
+
+    private BoxCollider2D _rpgBox;
+    private BoxCollider2D _physBox;
+    private BoxCollider2D _engBox;
+
+    private SpriteRenderer _rpgSprite;
+    private SpriteRenderer _physSprite;
+    private SpriteRenderer _engSprite;
 
     private VideoPlayer player;
     private bool videoFinished = false;
@@ -42,6 +50,18 @@ public class StartGameTp : MonoBehaviour
         // startButton = GameObject.Find("startButton").transform;
         // Debug.Log("start");
         _camera = Camera.main;
+        
+        _rpgFile = GameObject.Find("Programing File").transform;
+        _physFile = GameObject.Find("PhysicsFile").transform;
+        _engFile = GameObject.Find("EngAButton").transform;
+        
+        _rpgBox = _rpgFile.GetComponent<BoxCollider2D>();
+        _physBox = _physFile.GetComponent<BoxCollider2D>();
+        _engBox = _engFile.GetComponent<BoxCollider2D>();
+        
+        _rpgSprite = _rpgFile.GetComponent<SpriteRenderer>();
+        _physSprite = _physFile.GetComponent<SpriteRenderer>();
+        _engSprite = _engFile.GetComponent<SpriteRenderer>();
 
         player = GameObject.Find("Tutorial").GetComponent<VideoPlayer>();
         player.isLooping = false;
@@ -51,10 +71,6 @@ public class StartGameTp : MonoBehaviour
         StartPhys = false;
 
         dialogueManager = FindFirstObjectByType<DialogueManager>();
-
-        pgFile = GameObject.Find("Programing File").transform;
-        phFile = GameObject.Find("PhysicsFile").transform;
-        engFile = GameObject.Find("EngAButton").transform;
     }
 
     // Update is called once per frame
@@ -73,10 +89,14 @@ public class StartGameTp : MonoBehaviour
         if (!_gameWon && RPGGameManager.won && EngAGroundScroll.won && PhysicsMoodManager.Won)
         {
             _gameWon = true;
-            Camera.main.transform.position = new Vector3(80, 80, -10);
+            _camera.transform.position = new Vector3(80, 80, -10);
             message[0] = "Finally...";
             dialogueFinished = false;
         }
+
+        if (RPGGameManager.won) _rpgBox.enabled = false;
+        if (PhysicsMoodManager.Won) _physBox.enabled = false;
+        if (EngAGroundScroll.won) _engBox.enabled = false;
 
         if (!Input.GetMouseButtonDown(0)) return;
         
@@ -158,19 +178,20 @@ public class StartGameTp : MonoBehaviour
             count++;
             if(count == 1)
             {
-                pgFile.GetComponent<BoxCollider2D>().enabled = false;
-                pgFile.GetComponent<SpriteRenderer>().enabled = false;
+                _rpgBox.enabled = false;
+                _rpgSprite.enabled = false;
 
             }
             if(count == 2)
             {
-                phFile.GetComponent<BoxCollider2D>().enabled = false;
-                phFile.GetComponent<SpriteRenderer>().enabled = false;
+                _physBox.enabled = false;
+                _physSprite.enabled = false;
             }
             if(count >= 3)
             {
-                engFile.GetComponent<BoxCollider2D>().enabled = false;
-                engFile.GetComponent<SpriteRenderer>().enabled = false;
+                _engBox.enabled = false;
+                _engSprite.enabled = false;
+                
                 _camera.transform.position = JokeScreen;
                 
             }
