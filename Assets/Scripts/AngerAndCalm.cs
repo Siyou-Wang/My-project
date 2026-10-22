@@ -79,6 +79,10 @@ public class AngerAndCalm : MonoBehaviour
             {
                 water.transform.position = new Vector3(0, -1000, 0);
             }
+            if(mentalState <10 && mentalState >= 5)
+            {
+                water.transform.position = new Vector3(0, -500, 0);
+            }
         }
         else
         {

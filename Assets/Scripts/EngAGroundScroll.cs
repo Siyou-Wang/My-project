@@ -9,6 +9,8 @@ public class EngAGroundScroll : MonoBehaviour
     private Camera cam;
 
     public static bool isTyping;
+    private int streakWin;
+    public static bool won;
    
 
     [SerializeField] private float baseSpeed = 0.5f;
@@ -37,6 +39,7 @@ public class EngAGroundScroll : MonoBehaviour
         Debug.Log("BackgroundScroll Start running");
         GameObject g1 = GameObject.Find("EngAGround1");
         GameObject g2 = GameObject.Find("EngAGround2");
+        won = false;
 
         if (g1 == null || g2 == null)
         {
@@ -68,6 +71,11 @@ public class EngAGroundScroll : MonoBehaviour
     {
         HandleTyping();
         ScrollGround();
+        if(streakWin >= 2)
+        {
+            won = true;
+            Camera.main.transform.position = new Vector3(20, 0, -10);
+        }
         
     }
 
@@ -107,12 +115,17 @@ public class EngAGroundScroll : MonoBehaviour
                 speed = baseSpeed + streak * speedPerCorrectChar;
                 typeDex++;
 
-                
+
 
                 if (typeDex >= typeAnsw.Length)
+                {
                     LoadSentence(sentenceIndex + 1); // finished: next sentence, streak keeps going
+                    streakWin++;
+                }
                 else if (prompt != null)
+                {
                     prompt.SetProgress(typeDex);
+                }
             }
             else
             {

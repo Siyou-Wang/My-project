@@ -14,7 +14,7 @@ public class RPGGameManager : MonoBehaviour
     public static bool playerAttack;
     private Transform enemy;
 
-    private static bool won;
+    public static bool won;
 
     private Transform heart;
     private Transform heart1;

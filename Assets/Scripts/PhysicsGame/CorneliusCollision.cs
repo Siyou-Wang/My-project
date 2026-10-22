@@ -5,7 +5,9 @@ namespace PhysicsGame
 {
     public class CorneliusCollision : MonoBehaviour
     {
+        public int count = 0;
         public event Action Hit;
+ 
         
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -13,6 +15,9 @@ namespace PhysicsGame
             
             Destroy(other.gameObject);
             Hit?.Invoke();
+            count++;
         }
+
+        
     }
 }

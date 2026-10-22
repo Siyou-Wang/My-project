@@ -1,4 +1,7 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.Video;
 
 public class StartGameTp : MonoBehaviour
 {
@@ -12,10 +15,20 @@ public class StartGameTp : MonoBehaviour
     private static readonly Vector3 TerminalScreen = new (20, -20, -10);
     private static readonly Vector3 EnglishScreen = new (60, 0, -10);
     private static readonly Vector3 PhysicsScreen = new (80, -20, -10);
+    private static readonly Vector3 JokeScreen = new Vector3(60, 60, -10);
+
+    private Transform pgFile;
+    private Transform phFile;
+    private Transform engFile;
+
+    private VideoPlayer player;
+    private bool videoFinished = false;
 
     private DialogueManager dialogueManager;
     private bool dialogueFinished = true;
     private string[] message = new string[1];
+
+    private static int count = 0;
 
     private Camera _camera;
 
@@ -25,17 +38,42 @@ public class StartGameTp : MonoBehaviour
         // startButton = GameObject.Find("startButton").transform;
         // Debug.Log("start");
         _camera = Camera.main;
+
+        player = GameObject.Find("Tutorial").GetComponent<VideoPlayer>();
+        player.isLooping = false;
         
         StartRpg = false;
         StartEng = false;
         StartPhys = false;
 
         dialogueManager = FindFirstObjectByType<DialogueManager>();
+
+        pgFile = GameObject.Find("Programing File").transform;
+        phFile = GameObject.Find("PhysicsFile").transform;
+        engFile = GameObject.Find("EngAButton").transform;
     }
 
     // Update is called once per frame
     private void Update()
     {
+        
+
+        if (!dialogueFinished)
+        {
+            dialogueManager.ShowBox(message);
+        }
+        if (!dialogueFinished && Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            dialogueFinished = true;
+        }
+
+        if ((RPGGameManager.won&&EngAGroundScroll.won)) // Add cornelius won here
+        {
+            Camera.main.transform.position = new Vector3(80, 80, -10);
+            message[0] = "Finally...";
+            dialogueFinished = false;
+        }
+
         if (!Input.GetMouseButtonDown(0)) return;
         
         var mousePos = _camera.ScreenToWorldPoint(Input.mousePosition);
@@ -52,6 +90,9 @@ public class StartGameTp : MonoBehaviour
             StartRpg = false;
             StartEng = false;
             StartPhys = false;
+            message[0] = "I should start on the assignments...man I played games for way too long. Oh shoot, its all due tonight!?!?";
+            dialogueFinished = false;
+            player.Play();
         }
         
         else if (hit.collider.CompareTag("BackToScreen"))
@@ -70,6 +111,8 @@ public class StartGameTp : MonoBehaviour
             StartRpg = false;
             StartEng = false;
             StartPhys = false;
+            message[0] = "Oops...was I supposed to touch this?";
+            dialogueFinished = false;
         }
         
         else if (hit.collider.CompareTag("EngATP"))
@@ -105,5 +148,34 @@ public class StartGameTp : MonoBehaviour
             StartRpg = false;
             StartEng = false;
         }
+
+        else if (hit.collider.CompareTag("Trash"))
+        {
+            count++;
+            if(count == 1)
+            {
+                pgFile.GetComponent<BoxCollider2D>().enabled = false;
+                pgFile.GetComponent<SpriteRenderer>().enabled = false;
+
+            }
+            if(count == 2)
+            {
+                phFile.GetComponent<BoxCollider2D>().enabled = false;
+                phFile.GetComponent<SpriteRenderer>().enabled = false;
+            }
+            if(count >= 3)
+            {
+                engFile.GetComponent<BoxCollider2D>().enabled = false;
+                engFile.GetComponent<SpriteRenderer>().enabled = false;
+                _camera.transform.position = JokeScreen;
+                
+            }
+        }
+        player.loopPointReached += EndReached;
+    }
+    void EndReached(UnityEngine.Video.VideoPlayer vp)
+    {
+        vp.gameObject.SetActive(false);
+        videoFinished = true;
     }
 }
