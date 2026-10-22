@@ -17,7 +17,5 @@ namespace PhysicsGame
             Hit?.Invoke();
             count++;
         }
-
-        
     }
 }

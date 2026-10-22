@@ -69,6 +69,8 @@ public class EngAGroundScroll : MonoBehaviour
 
     void Update()
     {
+        if (won || !StartGameTp.StartEng) return;
+        
         HandleTyping();
         ScrollGround();
         if(streakWin >= 2)

@@ -8,7 +8,7 @@ namespace PhysicsGame
         private const float MaxDistanceX = 8f;
         private const float SpawnPositionY = -13f;
 
-        private const float Duration = 30f;
+        private const float Duration = 60f;
         private const float StartInterval = 1.2f;
         private const float MinInterval = 0.25f;
         private const float IntervalShrinkPerSecond = 0.02f;

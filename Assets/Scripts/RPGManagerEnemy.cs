@@ -77,16 +77,11 @@ public class RPGManagerEnemy : MonoBehaviour
             }
 
             if (enemyTurn && !RPGGameManager.playerAttack)
-                {
+            {
                 
                 RPGGameManager.pSetH(-1 * Random.Range(10,15));
                     enemyTurn = false;
-                    
-                    
-                    
-             }
-
-            
+            }
         }
         if (e2)
         {
@@ -110,19 +105,13 @@ public class RPGManagerEnemy : MonoBehaviour
             }
 
             if (enemyTurn && !RPGGameManager.playerAttack)
-                {
+            {
                 
                 RPGGameManager.pSetH(-1 * Random.Range(15,20));
                     enemyTurn = false;
                     //message[0] = "The enemy attacked the player! The player has " + RPGGameManager.pGetH() + " health left!";
                     //dialogueFinished = false;
-                    
-                    
-                }
-                
-                
-            
-            
+            }
         }
         if (e3)
         {

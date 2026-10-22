@@ -88,8 +88,12 @@ public class CodeGamePuzzle : MonoBehaviour
 
         }
 
-        if((start && end) && mid)
+        if (start && end && mid)
         {
+            start = false;
+            mid = false;
+            end = false;
+            
             completeCode = true;
             Camera.main.transform.position = new Vector3(40, -20, -10);
             reset();

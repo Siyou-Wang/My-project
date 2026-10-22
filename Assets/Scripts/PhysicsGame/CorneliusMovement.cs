@@ -32,7 +32,6 @@ namespace PhysicsGame
                 return;
             }
             
-            
             _moveInput = Input.GetAxisRaw("Horizontal");
             if (_moveInput != 0f)
             {

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Video;
+using PhysicsGame;
 
 public class StartGameTp : MonoBehaviour
 {
@@ -10,12 +11,13 @@ public class StartGameTp : MonoBehaviour
     public static bool StartEng;
     public static bool StartPhys;
 
-    private static readonly Vector3 MainScreen = new (20, 0, -10);
+    public static readonly Vector3 MainScreen = new (20, 0, -10);
+    
     private static readonly Vector3 CodeScreen = new (40, 0, -10);
     private static readonly Vector3 TerminalScreen = new (20, -20, -10);
     private static readonly Vector3 EnglishScreen = new (60, 0, -10);
     private static readonly Vector3 PhysicsScreen = new (80, -20, -10);
-    private static readonly Vector3 JokeScreen = new Vector3(60, 60, -10);
+    private static readonly Vector3 JokeScreen = new (60, 60, -10);
 
     private Transform pgFile;
     private Transform phFile;
@@ -28,7 +30,9 @@ public class StartGameTp : MonoBehaviour
     private bool dialogueFinished = true;
     private string[] message = new string[1];
 
-    private static int count = 0;
+    private static int count;
+
+    private bool _gameWon;
 
     private Camera _camera;
 
@@ -56,19 +60,19 @@ public class StartGameTp : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        
-
         if (!dialogueFinished)
         {
             dialogueManager.ShowBox(message);
         }
+        
         if (!dialogueFinished && Input.GetKeyDown(KeyCode.Mouse1))
         {
             dialogueFinished = true;
         }
 
-        if ((RPGGameManager.won&&EngAGroundScroll.won)) // Add cornelius won here
+        if (!_gameWon && RPGGameManager.won && EngAGroundScroll.won && PhysicsMoodManager.Won)
         {
+            _gameWon = true;
             Camera.main.transform.position = new Vector3(80, 80, -10);
             message[0] = "Finally...";
             dialogueFinished = false;
@@ -173,7 +177,7 @@ public class StartGameTp : MonoBehaviour
         }
         player.loopPointReached += EndReached;
     }
-    void EndReached(UnityEngine.Video.VideoPlayer vp)
+    void EndReached(VideoPlayer vp)
     {
         vp.gameObject.SetActive(false);
         videoFinished = true;
